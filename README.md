@@ -71,3 +71,5 @@ Código	Situação	Exemplo de resposta
 - Execute o servidor da API (exemplo: python app.py).
 - Realize chamadas POST para http://<servidor>:<porta>/predict enviando JSON conforme o formato acima.
 - Receba o valor de percentagem e use-o em seu aplicativo ou sistema de monitoramento.
+
+**Nota:** O arquivo para ser usado na api **(modelo_random_forest.pkl)** deve ser descompactado para ser incluido dentro da api na pasta **modelo**
