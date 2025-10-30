@@ -52,7 +52,7 @@ O modelo treinado espera receber os seguintes dados meteorológicos como entrada
 **Nota** *Radiação Global (Kj/m²) - Nota: Dados do CIIAGRO foram convertidos de W/m² para Kj/m² (multiplicado por 3.6) para unificação.*
 **Importante:** *Todas as variáveis acima devem estar presentes na requisição. Se alguma faltar, a API retorna 400 Bad Request.*
 
-✅ Formato da Resposta (JSON)
+**Formato da Resposta (JSON)**
 {
   "probabilidade_queimada_%": 47.3
 }
@@ -60,7 +60,7 @@ O modelo treinado espera receber os seguintes dados meteorológicos como entrada
 
 probabilidade_queimada_% (float) – Chance estimada de ocorrência de queimada, em porcentagem.
 
-❗ Respostas de Erro
+### Respostas de Erro
 Código	Situação	Exemplo de resposta
 400	JSON inválido ou variável ausente	{ "error": "Variável 'umidaderelativadoar' faltando" }
 500	Erro interno no servidor	{ "error": "Erro interno no servidor", "details": "..."}
