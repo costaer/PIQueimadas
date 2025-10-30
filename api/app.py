@@ -1,21 +1,18 @@
 from flask import Flask, request, jsonify
-import pickle
+import joblib
 import os
 import numpy as np
 import pandas as pd
 
 app = Flask(__name__)
 
-# Caminhos para o modelo e scaler – ajuste conforme sua estrutura
-MODELO_PATH = os.path.join(os.path.dirname(__file__), "modelo", "modelo_random_forest.pkl")
-SCALER_PATH = os.path.join(os.path.dirname(__file__), "modelo", "scaler_random_forest.pkl")
+# Caminhos para o modelo e scaler – ajuste conforme sua estrutura e nomes do arquivo
+MODELO_PATH = os.path.join(os.path.dirname(__file__), "modelo", "modelo_random_forest.joblib")
+SCALER_PATH = os.path.join(os.path.dirname(__file__), "modelo", "scaler.joblib")
 
 # Carregar o modelo e o scaler
-with open(MODELO_PATH, "rb") as f_model:
-    modelo = pickle.load(f_model)
-
-with open(SCALER_PATH, "rb") as f_scaler:
-    scaler = pickle.load(f_scaler)
+modelo = joblib.load(MODELO_PATH)
+scaler = joblib.load(SCALER_PATH)
 
 # Função de pré‑processamento dos dados recebidos
 def preprocess_input(data: dict):
