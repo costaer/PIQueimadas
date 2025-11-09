@@ -100,12 +100,15 @@ const resultado = await predictor.predict(dados);
 const porcentagem = (resultado.probabilidade_queimada * 100).toFixed(2) + '%';
 
 **Ezemplo para classificar o nível de risco**
+```bash
 function classificarRisco(probabilidade) {
     if (probabilidade > 0.7) return 'ALTO';
     if (probabilidade > 0.4) return 'MÉDIO';
     return 'BAIXO';
 }
+
 const nivel_risco = classificarRisco(resultado.probabilidade_queimada);
+```
 
 # Arquivos Codigo_implementacao.js e teste_modelo.js
 Esses arquivos são exemplos de como utilizar os arquivos de modeloagem gerados na conversão do modelo Python.
