@@ -10,34 +10,47 @@ O notebook documenta as etapas iniciais de um projeto para desenvolver uma API d
 3.  **Divisão Estratificada:** O dataset foi dividido em conjuntos de treino e teste de forma estratificada por cidade e ocorrência de queimada para garantir representatividade.
 4.  **Modelagem e Avaliação:** Dois modelos de classificação (Random Forest e XGBoost) foram treinados e avaliados para prever o risco de queimada, utilizando técnicas de balanceamento de classes (SMOTE).
 5.  **Seleção do Modelo:** Com base nas métricas de avaliação, especialmente o Recall (capacidade de detectar queimadas reais), o modelo Random Forest foi selecionado como o mais promissor para a aplicação.
-6.  **Serialização:** O modelo Random Forest treinado e o scaler de pré-processamento foram salvos para uso futuro na API.
+6.  **Serialização:** O modelo Random Forest treinado e o scaler de pré-processamento foram salvos para uso em produção.
 
 As análises confirmaram que variáveis como umidade relativa, temperatura e ponto de orvalho são preditores importantes para o risco de queimadas.
 
 Este notebook serve como a fundação para o desenvolvimento da API de previsão.
 
-## API de Previsão de Queimadas
+## Utilização do modelo em produção
 
-- **Endpoint**
-> POST /predict
+Arquivos necessários:
 
-### Descrição
+seu-projeto/
+├── modelo_random_forest.onnx      # Modelo convertido para ONNX
+├── scaler_info.json               # Configurações do pré-processamento
+├── modelo_predictor.js            # Classe para fazer predições
+└── package.json                   # Dependências do projeto
 
-A API recebe um conjunto de variáveis meteorológicas e retorna a probabilidade, em %, de ocorrência de queimadas com base nas condições informadas. Qualquer linguagem de programação que suporte requisições HTTP (POST + JSON) pode integrar este serviço.
+## Configuração do ambiente
+ * 
+ * 1. COPIE ESTES ARQUIVOS para sua pasta do projeto:
+ *    - modelo_random_forest.onnx
+ *    - scaler_info.json
+ * 
+ * 2. INSTALE AS DEPENDÊNCIAS na pasta do seu projeto:
+ *    npm init -y
+ *    npm install onnxruntime-node
 
-**Formato da Requisição (JSON)**
-{
+## Envio de dados para o modelo
+
+**Formato do envio dos dados**
+dados: [0.0, 943.2, 29.2, 12.7, 36.0, 0.6, 88.6]
+
   "precipitacao": 0.0,
-  "pressaoatmosferica": 1013.25,
-  "temperatura": 32.5,
-  "temperaturapontodeorvalho": 18.3,
-  "umidaderelativadoar": 25.0,
-  "velocidadedovento": 5.2,
-  "radiacaosolar": 1200.0
-}
+  "pressaoatmosferica": 943.2,
+  "temperatura": 29.2,
+  "temperaturapontodeorvalho": 12.7,
+  "umidaderelativadoar": 36.0,
+  "velocidadedovento": 0.6,
+  "radiacaosolar": 88.6
+
 ### Parâmetros
 #### Variáveis de Entrada do Modelo
-
 O modelo treinado espera receber os seguintes dados meteorológicos como entrada para prever o risco de queimada. É fundamental que os dados de entrada estejam nas mesmas unidades e formato das variáveis usadas durante o treinamento:
 | Campo                     | Tipo   | Descrição                                   |
 |---------------------------|--------|---------------------------------------------|
@@ -48,28 +61,46 @@ O modelo treinado espera receber os seguintes dados meteorológicos como entrada
 | umidaderelativadoar       | float  | Umidade relativa do ar (%)                  |
 | velocidadedovento         | float  | Velocidade do vento (m/s)                   |
 | radiacaosolar             | float  | Radiação solar incidente (Kj/m²)            |
+|---------------------------|--------|---------------------------------------------|
 
-**Nota** *Radiação Global (Kj/m²) - Nota: Dados do CIIAGRO foram convertidos de W/m² para Kj/m² (multiplicado por 3.6) para unificação.*
-**Importante:** *Todas as variáveis acima devem estar presentes na requisição. Se alguma faltar, a API retorna 400 Bad Request.*
+## Tratando os dados de retorno
 
-**Formato da Resposta (JSON)**
-{
-  "probabilidade_queimada_%": 47.3
+**Resultado bruto do modelo**
+const resultado = await predictor.predict(dados);
+
+**Converter probabilidade para porcentagem**
+const porcentagem = (resultado.probabilidade_queimada * 100).toFixed(2) + '%';
+
+**Ezemplo para classificar o nível de risco**
+function classificarRisco(probabilidade) {
+    if (probabilidade > 0.7) return 'ALTO';
+    if (probabilidade > 0.4) return 'MÉDIO';
+    return 'BAIXO';
 }
+const nivel_risco = classificarRisco(resultado.probabilidade_queimada);
 
+# Arquivos Codigo_implementacao.js e teste_modelo.js
+Esses arquivos são exemplos de como utilizar os arquivos de modeloagem gerados na conversão do modelo Python.
 
-probabilidade_queimada_% (float) – Chance estimada de ocorrência de queimada, em porcentagem.
+# Releases / arquivos compactados
 
-### Respostas de Erro
-Código	Situação	Exemplo de resposta
-400	JSON inválido ou variável ausente	{ "error": "Variável 'umidaderelativadoar' faltando" }
-500	Erro interno no servidor	{ "error": "Erro interno no servidor", "details": "..."}
+## Arquivos compactados dos modelos
+Os arquivos compactados Modelo, Modelo JS e Modelo Python são pastas com o modelo já treinado.
+Modelo.tar.gz = os dois modelos, tanto python quanto o JS
+Modelo_Python.tar.gz tem apenas o modelo em Python
+Modelo_JS.tar.gz tem apenas o modelo convertido para ONNX
 
-### Como Utilizar
-- Clone o repositório e instale as dependências (por exemplo via requirements.txt).
-- Coloque o modelo treinado e o scaler no diretório conforme o código da API.
-- Execute o servidor da API (exemplo: python app.py).
-- Realize chamadas POST para http://<servidor>:<porta>/predict enviando JSON conforme o formato acima.
-- Receba o valor de percentagem e use-o em seu aplicativo ou sistema de monitoramento.
+O arquvo Teste_js_no_node_modules.tar.gz tem arquivos de teste, porém sem o node_modules
+- Para instalar é encessário 'npm install'
 
-**Nota:** O arquivo para ser usado na api **(modelo_random_forest.pkl)** deve ser descompactado para ser incluido dentro da api na pasta **modelo**
+Como extrair
+-----------
+No diretório onde você quer testar:
+
+```bash
+# Extrair o exemplo Node.js
+tar -xzf releases/Teste_js_no_node_modules.tar.gz -C ./teste_local
+
+# Extrair o pacote do modelo
+tar -xzf releases/Modelo.tar.gz -C ./modelo_local
+```
