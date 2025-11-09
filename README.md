@@ -37,27 +37,27 @@ seu-projeto/
 2. **INSTALE OS PACOTES NECESSÁRIOS na pasta do seu projeto:**
  *    npm init -y
  *    npm install onnxruntime-node
- * 
+   
 3. **NO SEU CÓDIGO, SIGA ESTES PASSOS:**
- *    
- *    PEGAR A FERRAMENTA: Importa a classe que faz as previsões
+
+ *    **PEGAR A FERRAMENTA:** Importa a classe que faz as previsões
  *    const QueimadasPredictor = require('./modelo_predictor.js');
- *    
- *    CRIAR UMA NOVA FERRAMENTA: Faz uma instância para usar
+   
+ *    **CRIAR UMA NOVA FERRAMENTA:** Faz uma instância para usar
  *    const predictor = new QueimadasPredictor();
- *    
- *    CARREGAR O MODELO: Pega o modelo do arquivo e prepara para uso
+   
+ *    **CARREGAR O MODELO:** Pega o modelo do arquivo e prepara para uso
  *    (Isso é feito uma vez no início do programa)
  *    await predictor.loadModel();
- *    
- *    COLOCAR OS DADOS: Prepare os dados da estação meteorológica
+   
+ *    **COLOCAR OS DADOS:** Prepare os dados da estação meteorológica
  *    Na ordem correta: [chuva, pressão, temperatura, orvalho, umidade, vento, sol]
  *    const dados = [0.0, 943.2, 29.2, 12.7, 36.0, 0.6, 88.6];
- *    
- *    FAZER A PREVISÃO: Envia os dados para o modelo e recebe a resposta
+   
+ *    **FAZER A PREVISÃO:** Envia os dados para o modelo e recebe a resposta
  *    const resultado = await predictor.predict(dados);
- *    
- *    USAR O RESULTADO: Veja o que o modelo calculou
+   
+ *    **USAR O RESULTADO:** Veja o que o modelo calculou
  *    console.log('Chance de ter queimada:', resultado.probabilidade_queimada);
  *    console.log('Em porcentagem:', (resultado.probabilidade_queimada * 100).toFixed(2) + '%');
  *    console.log('Situação:', resultado.classe === 1 ? 'TEM QUEIMADA' : 'NÃO TEM QUEIMADA');
