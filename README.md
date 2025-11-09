@@ -29,7 +29,7 @@ seu-projeto/
 
 ## Configuração do ambiente
 **COMO USAR O MODELO NO SEU PROGRAMA:**
- * 
+
 1. **COPIE ESTES ARQUIVOS para a pasta do seu projeto:**
  *    modelo_random_forest.onnx
  *    scaler_info.json
@@ -87,7 +87,6 @@ O modelo treinado espera receber os seguintes dados meteorológicos como entrada
 | umidaderelativadoar       | float  | Umidade relativa do ar (%)                  |
 | velocidadedovento         | float  | Velocidade do vento (m/s)                   |
 | radiacaosolar             | float  | Radiação solar incidente (Kj/m²)            |
-|---------------------------|--------|---------------------------------------------|
 
 ## Tratando os dados de retorno
 
