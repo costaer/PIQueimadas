@@ -94,11 +94,13 @@ O modelo treinado espera receber os seguintes dados meteorológicos como entrada
 ## Tratando os dados de retorno
 
 **Resultado bruto do modelo**
+```bash
 const resultado = await predictor.predict(dados);
-
+```
 **Converter probabilidade para porcentagem**
+```bash
 const porcentagem = (resultado.probabilidade_queimada * 100).toFixed(2) + '%';
-
+```
 **Ezemplo para classificar o nível de risco**
 ```bash
 function classificarRisco(probabilidade) {
