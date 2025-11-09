@@ -33,10 +33,12 @@ seu-projeto/
 1. **COPIE ESTES ARQUIVOS para a pasta do seu projeto:**
  *    modelo_random_forest.onnx
  *    scaler_info.json
- * 
+
+   
 2. **INSTALE OS PACOTES NECESSÁRIOS na pasta do seu projeto:**
  *    npm init -y
  *    npm install onnxruntime-node
+
    
 3. **NO SEU CÓDIGO, SIGA ESTES PASSOS:**
 
@@ -61,6 +63,7 @@ seu-projeto/
  *    console.log('Chance de ter queimada:', resultado.probabilidade_queimada);
  *    console.log('Em porcentagem:', (resultado.probabilidade_queimada * 100).toFixed(2) + '%');
  *    console.log('Situação:', resultado.classe === 1 ? 'TEM QUEIMADA' : 'NÃO TEM QUEIMADA');
+
 
 # Envio de dados para o modelo
 
