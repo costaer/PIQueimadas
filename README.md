@@ -11,6 +11,7 @@ O notebook documenta as etapas iniciais de um projeto para desenvolver uma API d
 4.  **Modelagem e Avaliação:** Dois modelos de classificação (Random Forest e XGBoost) foram treinados e avaliados para prever o risco de queimada, utilizando técnicas de balanceamento de classes (SMOTE).
 5.  **Seleção do Modelo:** Com base nas métricas de avaliação, especialmente o Recall (capacidade de detectar queimadas reais), o modelo Random Forest foi selecionado como o mais promissor para a aplicação.
 6.  **Serialização:** O modelo Random Forest treinado e o scaler de pré-processamento foram salvos para uso em produção.
+7.  **Conversão do modelo:** O modelo foi convertido para ONNX a fim de ser usado em outras aplicação que não usam python.
 
 As análises confirmaram que variáveis como umidade relativa, temperatura e ponto de orvalho são preditores importantes para o risco de queimadas.
 
@@ -22,19 +23,44 @@ Arquivos necessários:
 
 seu-projeto/
 ├── modelo_random_forest.onnx      # Modelo convertido para ONNX
-├── scaler_info.json               # Configurações do pré-processamento
-├── modelo_predictor.js            # Classe para fazer predições
-└── package.json                   # Dependências do projeto
+└── scaler_info.json               # Configurações do pré-processamento
 
 ## Configuração do ambiente
+ /**
+ *  COMO USAR O MODELO NO SEU PROGRAMA:
  * 
- * 1. COPIE ESTES ARQUIVOS para sua pasta do projeto:
+ * 1. COPIE ESTES ARQUIVOS para a pasta do seu projeto:
  *    - modelo_random_forest.onnx
  *    - scaler_info.json
  * 
- * 2. INSTALE AS DEPENDÊNCIAS na pasta do seu projeto:
+ * 2. INSTALE OS PACOTES NECESSÁRIOS na pasta do seu projeto:
  *    npm init -y
  *    npm install onnxruntime-node
+ * 
+ * 3. NO SEU CÓDIGO, SIGA ESTES PASSOS:
+ *    
+ *    // PEGAR A FERRAMENTA: Importa a classe que faz as previsões
+ *    const QueimadasPredictor = require('./modelo_predictor.js');
+ *    
+ *    // CRIAR UMA NOVA FERRAMENTA: Faz uma instância para usar
+ *    const predictor = new QueimadasPredictor();
+ *    
+ *    // CARREGAR O MODELO: Pega o modelo do arquivo e prepara para uso
+ *    // (Isso é feito uma vez no início do programa)
+ *    await predictor.loadModel();
+ *    
+ *    // COLOCAR OS DADOS: Prepare os dados da estação meteorológica
+ *    // Na ordem correta: [chuva, pressão, temperatura, orvalho, umidade, vento, sol]
+ *    const dados = [0.0, 943.2, 29.2, 12.7, 36.0, 0.6, 88.6];
+ *    
+ *    // FAZER A PREVISÃO: Envia os dados para o modelo e recebe a resposta
+ *    const resultado = await predictor.predict(dados);
+ *    
+ *    // USAR O RESULTADO: Veja o que o modelo calculou
+ *    console.log('Chance de ter queimada:', resultado.probabilidade_queimada);
+ *    console.log('Em porcentagem:', (resultado.probabilidade_queimada * 100).toFixed(2) + '%');
+ *    console.log('Situação:', resultado.classe === 1 ? 'TEM QUEIMADA' : 'NÃO TEM QUEIMADA');
+ */
 
 ## Envio de dados para o modelo
 
