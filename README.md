@@ -26,7 +26,6 @@ seu-projeto/
 └── scaler_info.json               # Configurações do pré-processamento
 
 ## Configuração do ambiente
- /**
  *  COMO USAR O MODELO NO SEU PROGRAMA:
  * 
  * 1. COPIE ESTES ARQUIVOS para a pasta do seu projeto:
@@ -60,9 +59,8 @@ seu-projeto/
  *    console.log('Chance de ter queimada:', resultado.probabilidade_queimada);
  *    console.log('Em porcentagem:', (resultado.probabilidade_queimada * 100).toFixed(2) + '%');
  *    console.log('Situação:', resultado.classe === 1 ? 'TEM QUEIMADA' : 'NÃO TEM QUEIMADA');
- */
 
-## Envio de dados para o modelo
+# Envio de dados para o modelo
 
 **Formato do envio dos dados**
 dados: [0.0, 943.2, 29.2, 12.7, 36.0, 0.6, 88.6]
