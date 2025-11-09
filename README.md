@@ -31,8 +31,8 @@ seu-projeto/
 **COMO USAR O MODELO NO SEU PROGRAMA:**
  * 
 1. **COPIE ESTES ARQUIVOS para a pasta do seu projeto:**
- *    - modelo_random_forest.onnx
- *    - scaler_info.json
+ *    modelo_random_forest.onnx
+ *    scaler_info.json
  * 
 2. **INSTALE OS PACOTES NECESSÁRIOS na pasta do seu projeto:**
  *    npm init -y
