@@ -22,7 +22,9 @@ Este notebook serve como a fundação para o desenvolvimento da API de previsão
 Arquivos necessários:
 
 seu-projeto/
+
 ├── modelo_random_forest.onnx      # Modelo convertido para ONNX
+
 └── scaler_info.json               # Configurações do pré-processamento
 
 ## Configuração do ambiente
